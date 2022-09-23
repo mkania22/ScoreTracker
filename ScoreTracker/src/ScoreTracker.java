@@ -10,11 +10,13 @@ public class ScoreTracker {
 	private ArrayList<Student> studentsList;  //Should be students 
 	String firstName;
 	String lastName;
-	int score;
 	String fullName;
 	Student student;
+	int score;
 	
 	public void loadDataFile(String inputFile) throws FileNotFoundException{  //will have to change it later
+		studentsList = new ArrayList<Student>();
+		
 		FileReader reader = new FileReader(inputFile);
 		
 		Scanner in = new Scanner(reader);
@@ -25,8 +27,8 @@ public class ScoreTracker {
 			fullName = firstName + " " + lastName;
 			score = in.nextInt();  //or should we cast it later
 			
-			Student newStudent = new Student(fullName, score);
-			studentsList.add(newStudent);   //idk why this doesnt work
+			//Student newStudent = new Student(fullName, score);
+			studentsList.add(new Student(fullName, score));   //idk why this doesnt work
 		}
 	}
 	
