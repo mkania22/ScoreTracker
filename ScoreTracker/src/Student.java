@@ -1,5 +1,5 @@
 
-public class Student {
+public class Student implements Comparable<Student> {
 	private String studentName;
 	private int studentScore;
 	
@@ -20,11 +20,13 @@ public class Student {
 		return studentName;
 	}
 
-	
+	public int compareTo(Student o) {
+		return studentName.compareTo(o.studentName);
+	}
 
 	@Override
 	public String toString() {
-		return studentName +  + studentScore;
+		return studentName + " "  + studentScore;
 	}
 	
 	

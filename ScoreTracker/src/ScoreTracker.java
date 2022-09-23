@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +14,7 @@ public class ScoreTracker {
 	String fullName;
 	Student student;
 	
-	public void loadDataFile(String inputFile){
+	public void loadDataFile(String inputFile) throws FileNotFoundException{  //will have to change it later
 		FileReader reader = new FileReader(inputFile);
 		
 		Scanner in = new Scanner(reader);
@@ -38,13 +39,13 @@ public class ScoreTracker {
 			
 	}
 	
-	public void processFiles() {
-		loadDataFile();  //need to pass in a file but how?
+	public void processFiles() throws FileNotFoundException {
+		loadDataFile("scores.txt");  
 		printInOrder();
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		ScoreTracker scoreTrackerOne = new ScoreTracker();
 		scoreTrackerOne.processFiles();
 	}
