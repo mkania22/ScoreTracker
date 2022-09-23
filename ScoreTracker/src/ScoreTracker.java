@@ -14,10 +14,17 @@ public class ScoreTracker {
 	Student student;
 	int score;
 	
-	public void loadDataFile(String inputFile) throws FileNotFoundException{  //will have to change it later
+	public void loadDataFile(String inputFile) throws Exception {  
 		studentsList = new ArrayList<Student>();
 		
-		FileReader reader = new FileReader(inputFile);
+		FileReader reader = null;   //do we need the null?
+		
+		try {
+			reader = new FileReader(inputFile);
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+			System.out.println(e.getMessage());  //what is get message
+		}
 		
 		Scanner in = new Scanner(reader);
 		
@@ -25,29 +32,39 @@ public class ScoreTracker {
 			firstName = in.next();
 			lastName = in.next();
 			fullName = firstName + " " + lastName;
-			score = in.nextInt();  //or should we cast it later
+			
+			score = in.nextInt();  
+			
+			if(score != int) {
+				throw new Exception("Inccorrect format or " + fullName + "not a valid score: " + score);  //this is not quite right
+			}
 			
 			//Student newStudent = new Student(fullName, score);
-			studentsList.add(new Student(fullName, score));   //idk why this doesnt work
+			studentsList.add(new Student(fullName, score));   
 		}
+		
+		in.close();
 	}
 	
 	public void printInOrder(){
 		Collections.sort(studentsList);
 		
+		System.out.println("Student Score List");
 		for(Student student : studentsList) {
 			System.out.println(student.getStudentName() + " " + student.getStudentScore());
 		}
 			
 	}
 	
-	public void processFiles() throws FileNotFoundException {
+	public void processFiles() {
 		loadDataFile("scores.txt");  
 		printInOrder();
+		
+		loadDataFile("badscore.txt");  //testing exception
+	
 	}
 	
-	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		ScoreTracker scoreTrackerOne = new ScoreTracker();
 		scoreTrackerOne.processFiles();
 	}
