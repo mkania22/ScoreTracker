@@ -9,5 +9,23 @@ public class Student {
 		this.studentScore = studentScore;
 	}
 	
+
+	public int getStudentScore() {
+		return studentScore;
+	}
+
+	
+
+	public String getStudentName() {
+		return studentName;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return studentName +  + studentScore;
+	}
+	
 	
 }
