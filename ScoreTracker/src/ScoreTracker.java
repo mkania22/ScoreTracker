@@ -11,39 +11,39 @@ public class ScoreTracker {
 	String firstName;
 	String lastName;
 	String fullName;
-	Student student;
-	int score;
+	String fileName;
+	String score;
 	
-	public void loadDataFile(String inputFile) throws Exception {  
+	Student student;
+	
+	int intScore;
+	private String[] listFiles = {"scores.txt", "badscore.txt", "nofile.txt"};
+	
+	public void loadDataFile(String inputFile) throws FileNotFoundException {  
 		studentsList = new ArrayList<Student>();
 		
 		FileReader reader = null;   //do we need the null?
-		
-		try {
-			reader = new FileReader(inputFile);
-		} catch (FileNotFoundException e) {
-			//e.printStackTrace();
-			System.out.println(e.getMessage());  //what is get message
-		}
+		reader = new FileReader(inputFile);
 		
 		Scanner in = new Scanner(reader);
 		
 		while(in.hasNextLine()) {
 			firstName = in.next();
 			lastName = in.next();
-			fullName = firstName + " " + lastName;
+			fullName = firstName + " " + lastName; 
+			score = in.next(); 
 			
-			score = in.nextInt();  
-			
-			if(score != int) {
-				throw new Exception("Inccorrect format or " + fullName + "not a valid score: " + score);  //this is not quite right
+			try {
+				intScore = Integer.parseInt(score);
+				studentsList.add(new Student(fullName, intScore));
+			} catch (NumberFormatException e) {
+				//e.printStackTrace();
+				System.out.println("Inccorrect format or " + fullName + " not a valid score: " + score);  //what is get message 
 			}
 			
 			//Student newStudent = new Student(fullName, score);
-			studentsList.add(new Student(fullName, score));   
+			  
 		}
-		
-		in.close();
 	}
 	
 	public void printInOrder(){
@@ -56,15 +56,20 @@ public class ScoreTracker {
 			
 	}
 	
-	public void processFiles() {
-		loadDataFile("scores.txt");  
-		printInOrder();
-		
-		loadDataFile("badscore.txt");  //testing exception
-	
+	public void processFiles() throws FileNotFoundException {
+		//array for loop
+		for(String fileName : listFiles) {
+			try {
+				loadDataFile(fileName);  
+				printInOrder();
+		} catch (FileNotFoundException e){
+			System.out.println("Can't open file: " + fileName);
+			}
+		}
+
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		ScoreTracker scoreTrackerOne = new ScoreTracker();
 		scoreTrackerOne.processFiles();
 	}
