@@ -19,10 +19,11 @@ public class ScoreTracker {
 	int intScore;
 	private String[] listFiles = {"scores.txt", "badscore.txt", "nofile.txt"};
 	
+	// This method takes in an input file checking that it exists and reads each line storing the name and score of the student in an array
 	public void loadDataFile(String inputFile) throws FileNotFoundException {  
 		studentsList = new ArrayList<Student>();
 		
-		FileReader reader = null;   //do we need the null?
+		FileReader reader = null;   
 		reader = new FileReader(inputFile);
 		
 		Scanner in = new Scanner(reader);
@@ -33,19 +34,19 @@ public class ScoreTracker {
 			fullName = firstName + " " + lastName; 
 			score = in.next(); 
 			
+			// Checks to make sure that the score given is an integer, if not it gives and error message
 			try {
 				intScore = Integer.parseInt(score);
 				studentsList.add(new Student(fullName, intScore));
 			} catch (NumberFormatException e) {
-				//e.printStackTrace();
-				System.out.println("Inccorrect format or " + fullName + " not a valid score: " + score);  //what is get message 
+				System.out.println("Inccorrect format or " + fullName + " not a valid score: " + score);  
+				System.out.println();
 			}
-			
-			//Student newStudent = new Student(fullName, score);
 			  
 		}
 	}
 	
+	// This method sorts the array by name and then prints it in order
 	public void printInOrder(){
 		Collections.sort(studentsList);
 		
@@ -53,12 +54,14 @@ public class ScoreTracker {
 		for(Student student : studentsList) {
 			System.out.println(student.getStudentName() + " " + student.getStudentScore());
 		}
+		System.out.println();
 			
 	}
 	
+	// This method goes through a loop of files and executes the loadDataFile and printInOrder method if the file exists
 	public void processFiles() throws FileNotFoundException {
-		//array for loop
 		for(String fileName : listFiles) {
+			// Checks to see if the file exists, if it doesn't it will display a message instead
 			try {
 				loadDataFile(fileName);  
 				printInOrder();
@@ -69,6 +72,7 @@ public class ScoreTracker {
 
 	}
 	
+	// Main calls the rest of the code
 	public static void main(String[] args) throws FileNotFoundException {
 		ScoreTracker scoreTrackerOne = new ScoreTracker();
 		scoreTrackerOne.processFiles();
